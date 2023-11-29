@@ -1,9 +1,10 @@
     #include <stdio.h>
-    #include<stdlib.h>
+    #include <stdlib.h>
+    #include <math.h>
     #include"structs.h"
-    #include "in.h"
-    #include "sep.h"
-    #include "pu.h"
+    #include"in.h"
+    #include"sep.h"
+    #include"pu.h"
 
 
     int main(void){
@@ -34,21 +35,35 @@
         printf("3.\tSobre\n");
         for(int i = 0; choice != 1 && choice != 2 && choice != 3; i++){
             scanf("%d", &choice);
+            
+            
+            
             if(choice == 1){
                 int componentes[5];
                 in_info( &componentes[1], &componentes[0] );
 
-                Impedancia Zstruct[ componentes[1] ];
-                Trafo Tstruct[ componentes[2] ];
-                Gerador Gstruct[ componentes[3] ];
-                Carga Cstruct[ componentes[4] ];
+                Componente Xstruct[ componentes[0] ];
 
-                in_store(&Zstruct[0], &Tstruct[0], &Gstruct[0], &Cstruct[0], &componentes[0]);
+                in_store(&Xstruct[0], &componentes[0]);
                 int* sep = calloc( 4 * componentes[0] * componentes[0] , sizeof(int));
-                //sep_matrix(&sep[0], &componentes[0], Tstruct, Gstruct, Zstruct, Cstruct);
+                //sep_matrix(&sep[0], &componentes[0], Xstruct);
                 free(sep);
                 aux = 1;
             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }/*else if(choice == 2){
                 printf("1.\tPassar S.E.P. para PU\n");
                 printf("2.\tCalcular Fluxo de Potencia\n");

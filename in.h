@@ -2,6 +2,7 @@
     //#include"structs.h"
 
     char tipos[4][11] = {"Impedancia", "Trafo", "Gerador", "Carga"};
+    //char tipos2[4] = {"I", "T", "G", "C"};
 
 
     void in_info(int* n, int* aux){
@@ -18,140 +19,64 @@
         }
     }
 
-    void in_store(Impedancia *Zstruct, Trafo *Tstruct, Gerador *Gstruct, Carga *Cstruct, int* n){
+    void in_store(Componente *Xstruct, int* n){
         printf("Inserir os dados para cada componente:\nObs: Leia o arquivo de instrucoes!!\n");
 
-        void in_fillZ(int n, Impedancia *v);
-        void in_fillT(int n, Trafo *v);
-        void in_fillG(int n, Gerador *v);
-        void in_fillC(int n, Carga *v);
+        void in_fill(int* n, Componente *v);
 
-        in_fillG(n[3], Gstruct);
-        in_fillT(n[2], Tstruct);
-        in_fillC(n[4], Cstruct);
-        in_fillZ(n[1], Zstruct);
+        in_fill(n, &Xstruct[0]);
 
     }
+        void in_fill(int* n, Componente *v){
+        for(int k = 0; k < 4; k++){
+            for(int count = 0; count < n[k+1]; count++){
 
-        void in_fillZ(int n, Impedancia *v){
+                (v + count*sizeof(v))->type = k + 1;
+                
+                printf("\t%s %d\n", tipos[k], count + 1);
+                if(k == 1){
+                    printf("Relacao de Transformacao (Vin/Vout)):\t");
+                    scanf("%lf", &(v->alpha) + count*sizeof(v));
+                    printf("\n");
+                }else{
+                    (v + count*sizeof(v))->alpha = -99;
+                }
+                printf("Potencia Complexa (MVA):\t");
+                scanf("%lf", &(v->S) + count*sizeof(v));
+                printf("\n");
 
-        for(int count = 0; count < n; count++){
-            printf("\tImpedancia %d\n", count + 1);
-            printf("Fator de Potencia:\t");
-            scanf("%lf", &(v->fp) + count*sizeof(v));
-            printf("\n");
+                printf("Impedancia Complexa (Ohm):\t");
+                scanf("%lf", &(v->Z) + count*sizeof(v));
+                printf("\n");
 
-            printf("Impedancia Complexa (Ohm):\t");
-            scanf("%lf", &(v->Z) + count*sizeof(v));
-            printf("\n");
+                printf("Fator de Potencia:\t");
+                scanf("%lf", &(v->fp) + count*sizeof(v));
+                printf("\n");
 
-            printf("No de entrada:\t");
-            scanf("%d", &(v->pos[0]) + count*sizeof(v));
-            printf("\n");
+                printf("No de entrada:\t");
+                scanf("%d", &(v->pos[0]) + count*sizeof(v));
+                printf("\n");
 
-            printf("No de saida:\t");
-            scanf("%d", &(v->pos[1]) + count*sizeof(v));
-            printf("\n");
+                if(k != 2 && k != 3){
+                    printf("No de saida:\t");
+                    scanf("%d", &(v->pos[1]) + count*sizeof(v));
+                    printf("\n");
+                }else{
+                    (v + count*sizeof(v))->pos[1] = -99;
+                }
 
-            printf("Zona de Tensão:\t");
-            scanf("%d", &(v->zT) + count*sizeof(v));
-            printf("\n");
-        }
-        
-        //printf("%lf", (v + count*sizeof(v))->V);
-    }
+                if(k == 2){
+                    printf("Tensão (kV):\t");
+                    scanf("%lf", &(v->V) + count*sizeof(v));
+                    printf("\n");
+                }else{
+                    (v + count*sizeof(v))->V = -99;
+                }
 
-        void in_fillT(int n, Trafo *v){
-
-        for(int count = 0; count < n; count++){
-            printf("\tImpedancia %d\n", count + 1);
-            printf("Relacao de Transformacao (Vin/Vout)):\t");
-            scanf("%lf", &(v->alpha) + count*sizeof(v));
-            printf("\n");
-            
-            printf("Potencia Complexa (MVA):\t");
-            scanf("%lf", &(v->S) + count*sizeof(v));
-            printf("\n");
-
-            printf("Impedancia Complexa (Ohm):\t");
-            scanf("%lf", &(v->Z) + count*sizeof(v));
-            printf("\n");
-
-            printf("Fator de Potencia:\t");
-            scanf("%lf", &(v->fp) + count*sizeof(v));
-            printf("\n");
-
-            printf("No de entrada:\t");
-            scanf("%d", &(v->pos[0]) + count*sizeof(v));
-            printf("\n");
-
-            printf("No de saida:\t");
-            scanf("%d", &(v->pos[1]) + count*sizeof(v));
-            printf("\n");
-
-            printf("Zona de Tensão:\t");
-            scanf("%d", &(v->zT) + count*sizeof(v));
-            printf("\n");
-        }
-        
-        //printf("%lf", (v + count*sizeof(v))->V);
-    }
-
-    void in_fillG(int n, Gerador *v){
-
-        for(int count = 0; count < n; count++){
-            printf("\tImpedancia %d\n", count + 1);
-            printf("Tensao (kV):\t");
-            scanf("%lf", &(v->V) + count*sizeof(v));
-            printf("\n");
-            
-            printf("Potencia Complexa (MVA):\t");
-            scanf("%lf", &(v->S) + count*sizeof(v));
-            printf("\n");
-
-            printf("Fator de Potencia:\t");
-            scanf("%lf", &(v->fp) + count*sizeof(v));
-            printf("\n");
-
-            printf("Impedancia Complexa (Ohm):\t");
-            scanf("%lf", &(v->Z) + count*sizeof(v));
-            printf("\n");
-
-            printf("No de entrada:\t");
-            scanf("%d", &(v->pos) + count*sizeof(v));
-            printf("\n");
-
-            printf("Zona de Tensão:\t");
-            scanf("%d", &(v->zT) + count*sizeof(v));
-            printf("\n");
-        }
-        
-        //printf("%lf", (v + count*sizeof(v))->V);
-    }
-
-    void in_fillC(int n, Carga *v){
-        
-        for(int count = 0; count < n; count++){
-            printf("\tImpedancia %d\n", count + 1);
-            printf("Potencia Complexa (MVA):\t");
-            scanf("%lf", &(v->S) + count*sizeof(v));
-            printf("\n");
-
-            printf("Impedancia Complexa (Ohm):\t");
-            scanf("%lf", &(v->Z) + count*sizeof(v));
-            printf("\n");
-
-            printf("Fator de Potencia:\t");
-            scanf("%lf", &(v->fp) + count*sizeof(v));
-            printf("\n");
-
-            printf("No de saida:\t");
-            scanf("%d", &(v->pos) + count*sizeof(v));
-            printf("\n");
-
-            printf("Zona de Tensão:\t");
-            scanf("%d", &(v->zT) + count*sizeof(v));
-            printf("\n");
+                printf("Zona de Tensão:\t");
+                scanf("%d", &(v->zT) + count*sizeof(v));
+                printf("\n");
+            }
         }
         //printf("%lf", (v + count*sizeof(v))->V);
     }

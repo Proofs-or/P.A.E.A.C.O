@@ -1,9 +1,9 @@
-    #include <stdio.h>
+    #include<stdio.h>
     #include<stdlib.h>
     #include<math.h>
 
     void sep_matrix(int* v, int* n, Componente *Xstruct){
-        void buscar(int* fim, int* v, int* addpos, Componente *Xstruct, int* componentes, int n, int mode);
+        void buscar(int* fim, int* v, int* addpos, Componente *Xstruct, int* componentes, int n, int mode, int* direcao);
 
         int fimpos = 1;
         int aux;
@@ -17,7 +17,7 @@
             }
             vector[i] = i;
         }
-        v[2*(n[0])*(n[0]) + 0] = -100 * (Xstruct + aux*sizeof(Xstruct))->type + n[ (Xstruct + aux*sizeof(Xstruct))->type ];
+        v[2*(n[0])*(n[0]) + 0] = -100 * (Xstruct + aux*sizeof(Xstruct))->type + n[0];
         v[2*(n[0])*(n[0]) + 1] = (Xstruct + aux*sizeof(Xstruct))->pos[0];
 
         int* fim = calloc(fimpos, sizeof(int));
@@ -30,7 +30,7 @@
                         if(vector[k] != -99 && (Xstruct + k*sizeof(Xstruct))->pos[x] == v[ fim[m] ] && (Xstruct + k*sizeof(Xstruct))->pos[x] != -99){
                             for(int h = 0; h < 4; h++){                             //Repetição direita, baixo, cima, esquerda
                                 if(v[ fim[m] + addpos[h] ] == 0){
-                                    v[ fim[m] + addpos[h] ] = (-100 * (Xstruct + k*sizeof(Xstruct))->type + n[ (Xstruct + aux*sizeof(Xstruct))->type ]); //Insere o componente na matriz
+                                    v[ fim[m] + addpos[h] ] = (-100 * (Xstruct + k*sizeof(Xstruct))->type + n[i]); //Insere o componente na matriz
                                     vector[k] = -99;                                                                //Retira o componente do "a fazer"
                                     i--;                                                                            //Informa que há um componente a menos no "pool" de repetições
                                     if((Xstruct + k*sizeof(Xstruct))->type != 2 && (Xstruct + k*sizeof(Xstruct))->type != 3){//Colocar o outro nó, se for o caso
@@ -40,7 +40,9 @@
                                         fimpos++;
                                         fim = (int *)realloc(fim, fimpos * sizeof(int));
                                         fim[fimpos - 1] = -99;
-                                        buscar(&fim[fimpos - 2], v, &addpos[0], &Xstruct[0], &k, *n, 0);
+                                        int* zero = calloc(1, sizeof(int));
+                                        buscar(&fim[fimpos - 2], v, &addpos[0], &Xstruct[0], &k, *n, 0, &zero[0]);
+                                        free(zero);
                                         m++;
                                     }
                                     h = 5;
@@ -63,12 +65,12 @@
         *(v + *nv) = (n*a) + b;
     }
 
-    void buscar(int* fim, int* v, int* addpos, Componente *Xstruct, int* componentes, int n, int mode){
+    void buscar(int* fim, int* v, int* addpos, Componente *Xstruct, int* componentes, int n, int mode, int* direcao){
         void condicao(int mode, int* cond, int*v, int* fim);
         
         int aux = *fim;
         int cond;
-        int c;
+        int c = 2;
         condicao(mode, &cond, v, fim);
         
         while(cond){
@@ -80,18 +82,27 @@
                             if( (Xstruct + i*sizeof(Xstruct))->pos[k] == v[ aux ]){
                                 *componentes = i - 1;
                                 *(fim + 1) = aux;
+                                h = 5;
+                                k = 3;
+                                i = n;
                             }    
                         }
                     }
-                }else if(mode == 1 || mode == 2){
-                    
-                    if(v[ aux - c * *(addpos + h) ] < 0){
-                        aux = aux - c * *(addpos + h);
-                        *fim = aux;
-                    }else if(v[ aux - c * *(addpos + h) ] > 0){
+                }else if(mode == 1){
+                    if(v[ aux - *(addpos + h) ] < 0){
                         aux = aux - *(addpos + h);
                         *fim = aux;
+                        *direcao = h;
+                        h = 5;
+                    }else if(v[ aux - *(addpos + h) ] > 0){
+                        aux = aux - *(addpos + h);
+                        *fim = aux;
+                        *direcao = h;
+                        h = 5;
                     }
+                }else if(mode == 2){
+                    //if(v[ aux - c * *(addpos + h) ])
+                    printf("Olá!!");
                 }
             }
             condicao(mode, &cond, v, fim);
@@ -106,14 +117,21 @@
                 *cond = 0;
             }
         }else if(mode == 1){
-            if(v[ *fim ] < -299 || v[ *fim ] > -200){//Trafo?
+            if(v[ *fim ] > -299 && v[ *fim ] < -200){// É um Trafo?
+                *cond = 0;
+            }else if(v[ *fim ] > -399 && v[ *fim ] < -300){
+                *cond = 0;
+            }else if(v[ *fim ] > -499 && v[ *fim ] < -400){
+                *cond = 0;
+            }else{
                 *cond = 1;
-            }else if(v[ *fim ] < -399 || v[ *fim ] > -300){
-                *cond = 1;
-            }else if(v[ *fim ] < -499 || v[ *fim ] > -400){
+            }
+        }else if(mode == 2){
+            if(v[ *fim ] != *(fim + 1)){
                 *cond = 1;
             }else{
                 *cond = 0;
             }
+
         }
     }

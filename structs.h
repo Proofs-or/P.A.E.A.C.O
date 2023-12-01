@@ -3,15 +3,13 @@
     typedef struct
     {
         double V;
-        double S;
-        double Z;
-        double I;
+        int zona;
 
     } Base;
 
     typedef struct
     {
-        char type;
+        long int type;
         double V;
         double S;
         double fp;

@@ -31,8 +31,13 @@
         }
         printf("************MENU************\n");
         printf("1.\tIncluir S.E.P.\n");
-        printf("2.\tCalcular S.E.P.\n");
+        printf("2.\tAjuda\n");
         printf("3.\tSobre\n");
+
+        FILE *inpaiaco;
+        FILE *odss;
+
+
         for(int i = 0; choice != 1 && choice != 2 && choice != 3; i++){
             scanf("%d", &choice);
             
@@ -41,12 +46,28 @@
             if(choice == 1){
                 int componentes[5];
                 in_info( &componentes[1], &componentes[0] );
-
                 Componente Xstruct[ componentes[0] ];
+                Base* Bases = calloc(1, sizeof(Base));
 
-                in_store(&Xstruct[0], &componentes[0]);
-                int* sep = calloc( 4 * componentes[0] * componentes[0] , sizeof(int));
-                //sep_matrix(&sep[0], &componentes[0], Xstruct);
+                double Vfixo;
+                int nVfixo;
+                printf("Insira a tensao fixada do sistema (kV)\n");
+                scanf("%lf", &Vfixo);
+                printf("Em qual no foi aferida essa tensao?\n");
+                scanf("%d", &nVfixo);
+
+                odss_init(odss, Vfixo);
+
+                in_store(&Xstruct[0], &componentes[0], inpaiaco);
+                int* sep = calloc( 4 * componentes[0] * componentes[0] , sizeof(long int));
+                sep_matrix(&sep[0], &componentes[0], Xstruct, Bases);
+                pu_Vzona(sizeof(Bases)/sizeof(Base), &Bases[0], &sep[0], sizeof(sep)/sizeof(long int), &Xstruct[0], Vfixo, nVfixo);
+                odss = fopen("sys.dss", "a");
+                fprintf(odss,"~ vminpu=0.75    ! o modelo permanence com pq constante até que a tensão de 0.75 pu\n! tensão base nas redes\nset voltagebases=[%lf", Bases[0].V);
+                fclose(odss);
+                odss_bases(&Bases[0], sizeof(Bases)/sizeof(Base), odss);
+                odss_close(odss);
+
                 free(sep);
                 aux = 1;
             
@@ -63,7 +84,7 @@
 
 
 
-
+                free(Bases);
             }/*else if(choice == 2){
                 printf("1.\tPassar S.E.P. para PU\n");
                 printf("2.\tCalcular Fluxo de Potencia\n");

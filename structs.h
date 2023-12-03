@@ -3,6 +3,7 @@
     typedef struct
     {
         double V;
+        double Vr;
         int zona;
 
     } Base;
@@ -12,6 +13,7 @@
         long int type;
         double V;
         double S;
+        double I;
         double fp;
         double Z;
         double alpha;

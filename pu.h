@@ -1,14 +1,22 @@
     #include <stdio.h>
 
-    /*void pu_calcbases(double Sbase, double Vbase, Componente *b, int zonas, int zVbase){
-        
-        for(int  i = 0; i < zonas; i++){
-            (b + sizeof(Componente)*i)->V = (b + sizeof(Componente)*i)->V / (c + sizeof(Base) * ( (b + sizeof(Componente)*i)->zT - 1);
+    void pu_empu(double Sbase, Componente *b, int n, Base *c, FILE *arq){
+        arq = fopen("pu.paeaco", "a");
+
+        for(int  i = n - 1; i > 0; i--){
+            if((b + sizeof(Componente)*i)->V != 0){
+                (b + sizeof(Componente)*i)->V = (b + sizeof(Componente)*i)->V / (c + sizeof(Base) * ( (b + sizeof(Componente)*i)->zT - 1))->V;
+                (c + sizeof(Base) * ( (b + sizeof(Componente)*i)->zT - 1))->Vr = (b + sizeof(Componente)*i)->V;
+            }else{
+                (b + sizeof(Componente)*i)->V = (c + sizeof(Base) * ( (b + sizeof(Componente)*i)->zT - 1))->Vr;
+            }
             (b + sizeof(Componente)*i)->S = (b + sizeof(Componente)*i)->S / Sbase;
             (b + sizeof(Componente)*i)->Z = (b + sizeof(Componente)*i)->Z * Sbase / pow( (c + sizeof(Base) * ( (b + sizeof(Componente)*i)->zT - 1) )->V , 2);
-            (b + sizeof(Componente)*i)->I = 2; //Sei n, ajuda nois
+            (b + sizeof(Componente)*i)->I = (b + sizeof(Componente)*i)->S / (b + sizeof(Componente)*i)->V;
+            fprintf(arq, "%lf\t%lf\t%lf\t%d\n", (b + sizeof(Componente)*i)->V, (b + sizeof(Componente)*i)->S, (b + sizeof(Componente)*i)->Z, i);
         }
-    }*/
+        fclose(arq);
+    }
 
     void pu_Vzona(int nb, Base *b, long int* v, int n, Componente *Xstruct, double Vfixo, int nVfixo){
         int zon = 0;

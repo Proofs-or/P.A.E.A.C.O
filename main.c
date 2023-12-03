@@ -5,6 +5,7 @@
     #include"in.h"
     #include"sep.h"
     #include"pu.h"
+    #include"odss.h"
 
 
     int main(void){
@@ -35,6 +36,7 @@
         printf("3.\tSobre\n");
 
         FILE *inpaiaco;
+        FILE *outpaiaco;
         FILE *odss;
 
 
@@ -50,9 +52,12 @@
                 Base* Bases = calloc(1, sizeof(Base));
 
                 double Vfixo;
+                double Sbase;
                 int nVfixo;
                 printf("Insira a tensao fixada do sistema (kV)\n");
                 scanf("%lf", &Vfixo);
+                printf("Insira a potencia fixada do sistema (MVA)\n");
+                scanf("%lf", &Sbase);
                 printf("Em qual no foi aferida essa tensao?\n");
                 scanf("%d", &nVfixo);
 
@@ -67,24 +72,12 @@
                 fclose(odss);
                 odss_bases(&Bases[0], sizeof(Bases)/sizeof(Base), odss);
                 odss_close(odss);
+                pu_empu(Sbase, &Xstruct[0], componentes[0], &Bases[0], outpaiaco);
 
                 free(sep);
                 aux = 1;
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
                 free(Bases);
+                
             }/*else if(choice == 2){
                 printf("1.\tPassar S.E.P. para PU\n");
                 printf("2.\tCalcular Fluxo de Potencia\n");

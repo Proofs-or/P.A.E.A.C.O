@@ -29,7 +29,7 @@
     }
 
     void in_fill(int* n, Componente *v, FILE *arq){
-        arq = fopen("in.paiaco", "a");
+        arq = fopen("in.paeaco", "a");
         fprintf(arq, "%d\n\n", *n);
         for(int k = 0; k < 4; k++){
             fprintf(arq, "%s\t%d\n", tipos[k], n[k]);

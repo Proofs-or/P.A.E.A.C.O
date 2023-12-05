@@ -1,0 +1,24 @@
+clear !limpa a memória do ODSS
+Set DefaultBaseFrequency=60 !Frequencia base de 60Hz
+new circuit.4busDYBal   basekV=21.0000 phases=3 !Cria um novo sistema
+~ mvasc3=200000 200000 !Barra fonte dada como infinita
+!DADOS DOS CONDUTORES -> EXEMPLO, INCOMPATÍVEL COM P.A.I.A.C.O, mas substitui as impedâncias das linhas pelos dados de seus condutores
+
+new wiredata.conductor Runits=mi Rac=0.306 GMRunits=ft GMRac=0.0244  Radunits=in Diam=0.721
+new wiredata.neutral   Runits=mi Rac=0.592 GMRunits=ft GMRac=0.00814 Radunits=in Diam=0.563
+
+new linegeometry.4wire nconds=4 nphases=3 reduce=yes !Realiza redução de KRON na linha
+
+!Localização geométrica dos condutores -> EXEMPLO, INCOMPATÍVEL COM P.A.I.A.C.O~ cond=1 wire=conductor units=ft x=-4   h=28
+~ cond=2 wire=conductor units=ft x=-1.5 h=28
+ ~ cond=3 wire=conductor units=ft x=3    h=28
+ ~ cond=4 wire=neutral   units=ft x=0    h=24
+
+new line.imoedancia1 geometry=4wire length=2000 units=ft bus1=sourcebus bus2=n2 !O tamanho da linha interfere na impedância da mesma
+
+
+
+!DADOS DO P.A.I.A.C.O
+new transformer.trafo6421656 xhl=6
+~ wdg=1 bus=1 conn=wye kV=0.0000 kVA=0.0000 r=0.00
+~ wdg=1 bus=2 conn=wye kV=0.0000 kVA=0.0000 r=0.00

@@ -8,7 +8,6 @@
         int fimpos = 1;
         int zona[2] = {1, 1};
         int aux;
-        //#define def[4] (char*){'Z', 'T', 'G', 'C'};                             //A
         int addpos[4] = {1, *n, -*n, -1};
         int vector[ *n ]; 
 
@@ -83,29 +82,13 @@
                             if( (Xstruct + i*sizeof(Componente))->pos[k] == v[ aux ]){
                                 *componentes = i - 1;
                                 *(fim + 1) = aux;
-                                //sep_findzona(v, Xstruxt, addpos, n, direcao, *(fim + 1));
                                 h = 5;
                                 k = 3;
                                 i = n;
                             }    
                         }
                     }
-                }/*else if(mode == 1){
-                    if(v[ aux - *(addpos + h) ] < 0){
-                        aux = aux - *(addpos + h);
-                        *fim = aux;
-                        *direcao = h;
-                        h = 5;
-                    }else if(v[ aux - *(addpos + h) ] > 0){
-                        aux = aux - *(addpos + h);
-                        *fim = aux;
-                        *direcao = h;
-                        h = 5;
-                    }
-                }else if(mode == 2){
-                    //if(v[ aux - c * *(addpos + h) ])
-                    printf("Olá!!");
-                }*/
+                }
             }
             sep_condicao(mode, &cond, v, fim);
         }
@@ -131,22 +114,5 @@
             }else{
                 *cond = 0;
             }
-        }/*else if(mode == 1){
-            if(v[ *fim ] > -299 && v[ *fim ] < -200){// É um Trafo?
-                *cond = 0;
-            }else if(v[ *fim ] > -399 && v[ *fim ] < -300){
-                *cond = 0;
-            }else if(v[ *fim ] > -499 && v[ *fim ] < -400){
-                *cond = 0;
-            }else{
-                *cond = 1;
-            }
-        }else if(mode == 2){
-            if(v[ *fim ] != *(fim + 1)){
-                *cond = 1;
-            }else{
-                *cond = 0;
-            }
-
-        }*/
+        }
     }

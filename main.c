@@ -78,27 +78,7 @@
                 aux = 1;
                 free(Bases);
                 
-            }/*else if(choice == 2){
-                printf("1.\tPassar S.E.P. para PU\n");
-                printf("2.\tCalcular Fluxo de Potencia\n");
-                scanf("%d", &choice);
-                if(choice == 1){
-                    double Sbase;
-                    printf("Inserir base de potencia do sistema (MVA)");
-                    scanf("%lf", &Sbase);
-                    #define zonas (componentes[2] + 1);
-                    double Vbase[zonas];
-                    printf("Inserir tensão base (kVA)\n");
-                    scanf("%lf", &Vbase);
-                    printf("Em qual zona foi registrada essa informacao?\n");
-                    scanf("%d", &choice);
-                    
-                    //comporzona(choice, );
-                    //pu_calcbases(Sbase, Vbase, &base[0], componentes[2]);
-                    }
-                }
-                aux = 1;
-            }*/
+            }
             if(aux != 1){
                 if(seriously(i) == 99){
                     return 99;

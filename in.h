@@ -1,8 +1,6 @@
     #include<stdio.h>
-    //#include"structs.h"
 
     char tipos[4][11] = {"Impedancia", "Trafo", "Gerador", "Carga"};
-    //char tipos2[4] = {"I", "T", "G", "C"};
 
 
     void in_info(int* n, int* aux){
@@ -85,14 +83,9 @@
                     (v + count*sizeof(v))->V = -99;
                 }
                 fprintf(arq, "%lf\t", (v + count*sizeof(v))->V);
-                
-                //printf("Zona de Tensão:\t");
-                //scanf("%d", &(v->zT) + count*sizeof(v));
-                //printf("\n");
                 fprintf(arq, "\n");
                 odss_include(arq, &v[0], count);
 
             }
         }
-        //printf("%lf", (v + count*sizeof(v))->V);
     }
